@@ -305,6 +305,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
+  jumpForce: 10
+  groundCheck: {fileID: 431292168}
+  groundCheckRadius: 0
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!50 &103354751
 Rigidbody2D:
   serializedVersion: 4
