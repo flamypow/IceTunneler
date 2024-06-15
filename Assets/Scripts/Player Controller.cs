@@ -18,14 +18,9 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MovePlayer();
+        
     }
 
 
-    void MovePlayer()
-    {
-        horizontal = Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("Vertical");
-        myRigidbody2D.velocity = new Vector2(horizontal * moveSpeed, vertical * moveSpeed);
-    }
+    
 }
