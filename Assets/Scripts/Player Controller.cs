@@ -5,87 +5,79 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Movement variables
-    public float moveSpeed = 5f;
-    public float jumpForce = 10f;
-    private bool isGrounded;
+    private float horizontal;
+    private float speed = 8f;
+    private float jumpingPower = 16f;
+    private bool isFacingRight = true; 
 
-    // Components
-    private Rigidbody2D rb;
-    private Animator animator;
+    private bool canDash = true;
+    private bool isDashing;
+    private float dashingPower = 24f;
+    private float dashingTime = 0.2f;
+    private float dashingCooldown = 1f;
 
-    // Ground check variables
-    public Transform groundCheck;
-    public float groundCheckRadius;
-    public LayerMask whatIsGround;
-    
 
-    // Input variables
-    private float moveInput;
+    [SerializedField] private Rigidbody2D rb;
+    [SerializedField] private Transform groundCheck;
+    [SerializedField] private LayerMask groundLayer;
+    [SerializedField] private TrailRenderer tr;
 
-    void Start()
+
+  private void Update()
     {
-        rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody>();
-    }
+        horizontal = Input.GetAxisRaw("Horizontal");
 
-    void Update()
-    {
-        // Handle movement input
-        moveInput = Input.GetAxis("Horizontal");
-        rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
-
-        // Handle jump input
-        if (isGrounded && Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && IsGrounded())
         {
-            rb.velocity = Vector2.up * jumpForce;
+            rb.velocity = new Vector2(velocity.x, jumpingPower);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f;
         {
-            Jump();
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
         }
 
-        // Update animator parameters
-        animator.SetFloat("Speed", Mathf.Abs(moveInput));
-        animator.SetBool("IsGrounded", isGrounded);
-
-        // Flip character sprite based on movement direction
-        if (moveInput > 0)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            StartCoroutine(Dash());
         }
-        else if (moveInput < 0)
+
+        Flip();
+    }
+     private  void  FixedUpdate()
+    {
+        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+    }
+
+    private bool IsGrounded()
+    {
+        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+    }
+
+    private vois Flip()
+    {
+        if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
-        }
-    }
-
-    void FixedUpdate()
-    {
-        // Check if the player is grounded
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        // Draw the ground check radius in the scene view
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
-    }
-
-    void Jump()
-    {
-        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        isGrounded = false;
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = true;
+            Vector3 localScale = transform.localScale;
+            isFacingRight = !isFacingRight;
+            localScale.x *= -1f;
+            transform.localScale = localScale;
         }
     }
 
+    private IEnumerator Dash()
+    {
+        canDash = false;
+        isDashing = true;
+        float originalGravity = rb.gravityScale;
+        rb.gravityScale = 0f;
+        rb.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
+        tr.emitting = true;
+        yield return new WaitForSeconds(dashingTime);
+        tr.emitting = false;
+        rb.gravityScale = originalGravity;
+        isDashing = false;
+        yield return new WaitForSecond(dashingCooldown);
+        canDash = true; 
+    }
 }
