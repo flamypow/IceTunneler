@@ -136,7 +136,6 @@ GameObject:
   - component: {fileID: 103354748}
   - component: {fileID: 103354747}
   - component: {fileID: 103354751}
-  - component: {fileID: 103354750}
   - component: {fileID: 103354752}
   m_Layer: 0
   m_Name: Player
@@ -293,28 +292,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &103354750
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 103354745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 870d6e8328e6ef34ea133f9d5764b095, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 10
-  jumpForce: 10
-  isGrounded: 0
-  rb: {fileID: 0}
-  animator: {fileID: 0}
-  groundCheck: {fileID: 431292168}
-  groundCheckRadius: 0
-  whatIsGround:
-    m_Bits: 0
-  moveInput: 0
 --- !u!50 &103354751
 Rigidbody2D:
   serializedVersion: 4
@@ -351,7 +328,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 103354745}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d527ff30c9663b45a8c6f874f38b9a8, type: 3}
+  m_Script: {fileID: 11500000, guid: ae961e1e4f9a52d4899791f0a57f1a71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &334919905
@@ -1245,7 +1222,7 @@ TrailRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Time: 5
-  m_PreviewTimeScale: 0.1
+  m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
