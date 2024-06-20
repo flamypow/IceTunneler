@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : Singleton <GameManager>
-{
+{  
+    //Nothing here yet until needed later.
     // Start is called before the first frame update
     void Start()
     {

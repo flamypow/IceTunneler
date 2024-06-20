@@ -55,7 +55,7 @@ public class PlayerController : Singleton<PlayerController>
 
     protected void FixedUpdate()
     {
-        //coyote time
+        //coyote time implementation
         if (groundCheck.IsGrounded())
         { 
             _lastGroundedTime = Time.time;

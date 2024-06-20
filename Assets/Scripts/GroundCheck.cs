@@ -5,7 +5,7 @@ using UnityEngine;
 public class GroundCheck : MonoBehaviour
 {
     private bool _onGround = false;
-    // Start is called before the first frame update
+    //This is a simpler version of ground check, it uses a collider2D and just check for triggers.
     public bool IsGrounded()
     {
         return _onGround;
