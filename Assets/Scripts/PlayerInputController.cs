@@ -17,12 +17,12 @@ public class PlayerInputController : MonoBehaviour
     }
     void OnEnable()
     {
-        PlayerInputs, player.Move = new player.Jump();
+        PlayerInputs playerInputs = new PlayerInputs();
         if (playerInputs != null)
         {
-            playerInputs.PlayerActions.Jump.performed += (val) => playerController.HandleJump();
-            playerInputs.PlayerActions.Jump.canceled += (val) => playerController.JumpReleased();
-            playerInputs.PlayerMovement.Move.performed += (val) => playerController.Move(val.ReadValue<Vector2>());
+            playerInputs.Player.Jump.performed += (val) => playerController.HandleJump();
+            playerInputs.Player.Jump.canceled += (val) => playerController.JumpReleased();
+            playerInputs.Player.Move.performed += (val) => playerController.Move(val.ReadValue<Vector2>());
         }
         playerInputs.Enable();
 
