@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerInputController : MonoBehaviour
 {
+
     #region Serializable Fields
 
     #endregion
@@ -22,7 +23,7 @@ public class PlayerInputController : MonoBehaviour
         {
             playerInputs.Player.Jump.performed += (val) => playerController.HandleJump();
             playerInputs.Player.Jump.canceled += (val) => playerController.JumpReleased();
-            playerInputs.Player.Move.performed += (val) => playerController.Move(val.ReadValue<Vector2>());
+            playerInputs.Player.Move.performed += (val) => playerController.Move(val.ReadValue<float>());
         }
         playerInputs.Enable();
 

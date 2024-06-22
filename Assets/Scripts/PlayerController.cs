@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     #endregion
     #region Private Variables
     protected Rigidbody2D rb;
-    protected GroundCheck groundCheck;
+    //protected GroundCheck groundCheck;
     protected bool isJumping = false;
     protected bool isGrounded = false;
     protected Vector2 movementVector;
@@ -27,13 +27,13 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        groundCheck = GetComponent<GroundCheck>();
+        //groundCheck = GetComponent<GroundCheck>();
     }
     public virtual void HandleJump()
     {
         Debug.Log("Jump");
 
-        if (!isJumping && (groundCheck.IsGrounded))
+        if (!isJumping)
 
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpVelocity);
@@ -45,9 +45,9 @@ public class PlayerController : MonoBehaviour
     {
         isJumping = false;
     }
-    public virtual void Move(Vector2 movement)
+    public virtual void Move(float movement)
     {
-        this.movementVector.x = movement.x;
+        this.movementVector.x = movement;
     }
     public virtual void AttachToParent(Transform newParent)
     {
