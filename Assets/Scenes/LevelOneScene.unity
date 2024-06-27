@@ -171,7 +171,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 103354745}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 380e6c603b02b6f4bae3384bf43282cd, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -277,6 +277,8 @@ MonoBehaviour:
   groundCheck: {fileID: 1348115769}
   coyoteTime: 0.1
   moveSpeed: 8
+  playerSpriteComponent: {fileID: 1517859806}
+  playerAnimator: {fileID: 1517859809}
 --- !u!114 &103354751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,7 +318,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 103354745}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 380e6c603b02b6f4bae3384bf43282cd, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -367,7 +369,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!1 &420816527
 GameObject:
@@ -1168,6 +1170,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1517859807}
   - component: {fileID: 1517859808}
+  - component: {fileID: 1517859809}
   m_Layer: 0
   m_Name: PlayerSprite
   m_TagString: Untagged
@@ -1242,6 +1245,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1517859809
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1517859806}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d3014f9e799abe9438380016e0fd238d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1652263090
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,12 +16,17 @@ public class PlayerController : Singleton<PlayerController>
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 50.0f;
+    [Header("Animations")]
+    [SerializeField] GameObject playerSpriteComponent;
+    [SerializeField] Animator playerAnimator;
     #endregion
 
     #region Private Variables
     private Rigidbody2D rb;
     private bool isJumping = false;
     private Vector2 movementVector;
+    private bool playerOnGround = true;
+    private bool playerFacingRight = true;
 
     //coyoteTimeVariables
     private float _lastGroundedTime;
@@ -39,6 +44,8 @@ public class PlayerController : Singleton<PlayerController>
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpVelocity);
             isJumping = true;
+            //playerAnimator.SetBool("IsGrounded", false);
+            playerAnimator.SetTrigger("Jump");
         }
     }
 
@@ -55,10 +62,19 @@ public class PlayerController : Singleton<PlayerController>
 
     protected void FixedUpdate()
     {
+        playerOnGround = groundCheck.IsGrounded();
         //coyote time implementation
-        if (groundCheck.IsGrounded())
+        if (playerOnGround)
         { 
             _lastGroundedTime = Time.time;
+            if (movementVector.x > 0)
+            {
+                FaceRight();
+            }
+            else if(movementVector.x < 0)
+            {
+                FaceLeft();
+            }
         } 
 
         if (rb.velocity.y < 0)
@@ -71,7 +87,8 @@ public class PlayerController : Singleton<PlayerController>
         {
             rb.velocity += Vector2.up * (Physics2D.gravity.y * Time.fixedDeltaTime * lowJumpMultiplier);
         }
-
+        playerAnimator.SetFloat("RunSpeed", Mathf.Abs(movementVector.x));
+        playerAnimator.SetBool("IsGrounded", playerOnGround);
         rb.velocity = new Vector2(movementVector.x * moveSpeed, rb.velocity.y);
     }
 
@@ -79,4 +96,19 @@ public class PlayerController : Singleton<PlayerController>
     {
         return (Time.time - _lastGroundedTime) <= coyoteTime;
     }
+
+    private void FaceLeft()
+    {
+        playerFacingRight = false;
+        if (playerSpriteComponent.transform.localScale.x > 0) 
+            playerSpriteComponent.transform.localScale = new Vector3(playerSpriteComponent.transform.localScale.x * -1, 1, 1);
+    }
+
+private void FaceRight()
+    {
+        playerFacingRight = true;
+        if (playerSpriteComponent.transform.localScale.x < 0)
+            playerSpriteComponent.transform.localScale = new Vector3(playerSpriteComponent.transform.localScale.x *-1, 1, 1);
+    }
+
 }
