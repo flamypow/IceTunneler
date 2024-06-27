@@ -104,11 +104,16 @@ public class PlayerController : Singleton<PlayerController>
             playerSpriteComponent.transform.localScale = new Vector3(playerSpriteComponent.transform.localScale.x * -1, 1, 1);
     }
 
-private void FaceRight()
+    private void FaceRight()
     {
         playerFacingRight = true;
         if (playerSpriteComponent.transform.localScale.x < 0)
             playerSpriteComponent.transform.localScale = new Vector3(playerSpriteComponent.transform.localScale.x *-1, 1, 1);
+    }
+
+    public void OnAttack()
+    {
+        playerAnimator.SetTrigger("Attack");
     }
 
 }

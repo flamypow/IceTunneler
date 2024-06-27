@@ -58,6 +58,17 @@
                 },
                 {
                     "name": "",
+                    "id": "9cd25eae-d9c8-4443-af2f-44bf4eb80661",
+                    "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "de1f3755-47d5-4e37-a9bc-109b250444b3",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
