@@ -11,7 +11,7 @@ public class GroundCheck : MonoBehaviour
         return _onGround;
     }
 
-    void OnTriggerEnter2D(Collider2D col)
+    void OnTriggerStay2D(Collider2D col)
     {
         _onGround = true;
     }
