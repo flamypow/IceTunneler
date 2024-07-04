@@ -14,6 +14,7 @@ public class PlayerInputController : MonoBehaviour
             playerI.PlayerAvatar.Jump.canceled += (val) => PlayerController.Instance.JumpReleased();
             playerI.PlayerAvatar.LRMovement.performed += (val) => PlayerController.Instance.OnMove(val.ReadValue<float>());
             playerI.PlayerAvatar.Attack.performed += (val) => PlayerController.Instance.OnAttack();
+            playerI.UI.Cancel.performed += (val) => GameManager.Instance.PauseUnpause();
         }
         playerI.Enable();
     }

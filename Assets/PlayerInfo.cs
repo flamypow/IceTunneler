@@ -1,0 +1,32 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerInfo : Singleton <PlayerInfo>
+{
+    [SerializeField] private int playerStartHealth;
+    private int playerCurrentHealth;
+
+
+    void Start()
+    {
+        playerCurrentHealth = playerStartHealth;
+    }
+
+    public void playerTakeDamage(int damageAmount)
+    {
+        playerCurrentHealth -= damageAmount;
+        Debug.Log(playerCurrentHealth);
+        if (playerCurrentHealth <= 0)
+        {
+            playerCurrentHealth = playerStartHealth;
+            GameManager.Instance.LoadGameOver();
+        }
+    }
+
+    public void playerGainHealth(int healAmount)
+    {
+        playerCurrentHealth += healAmount;
+    }
+
+}

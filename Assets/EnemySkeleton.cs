@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemySkeleton : BaseEnemy
 {
+    
     public override void TakeDamage()
     {
         currentHealth--;
@@ -38,6 +39,12 @@ public class EnemySkeleton : BaseEnemy
         if (collider.gameObject.layer == 6) //I'll need to switch this to enum later
         {
             TakeDamage();
+        }
+
+        //if player body, hit player
+        if (collider.gameObject.layer == 8)
+        {
+            GameManager.Instance.PlayerTakeHit(attackStrength, this.transform);
         }
     }
 

@@ -19,6 +19,9 @@ public class PlayerController : Singleton<PlayerController>
     [Header("Animations")]
     [SerializeField] GameObject playerSpriteComponent;
     [SerializeField] Animator playerAnimator;
+
+    [Header("TakingHit")]
+    [SerializeField] private float knockBackStrength = 2.0f;
     #endregion
 
     #region Private Variables
@@ -28,14 +31,21 @@ public class PlayerController : Singleton<PlayerController>
     private bool playerOnGround = true;
     private bool playerFacingRight = true;
 
-    //coyoteTimeVariables
+    //coyoteTime Variables
     private float _lastGroundedTime;
     private float _lastJumpTime;
+
+    //Knockback Variables
+    private Vector2 _knockbackForceRight = new Vector2(1.0f, 1.0f);
+    private Vector2 _knockbackForceLeft = new Vector2(1.0f, 1.0f);
     #endregion
+
+    bool playerCanMove = true;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        playerCanMove = true;
     }
 
     public void OnJump()
@@ -64,32 +74,40 @@ public class PlayerController : Singleton<PlayerController>
     {
         playerOnGround = groundCheck.IsGrounded();
         //coyote time implementation
-        if (playerOnGround)
-        { 
-            _lastGroundedTime = Time.time;
-            if (movementVector.x > 0)
+        if (playerCanMove)
+        {
+            if (playerOnGround)
             {
-                FaceRight();
+                _lastGroundedTime = Time.time;
+                if (movementVector.x > 0)
+                {
+                    FaceRight();
+                }
+                else if (movementVector.x < 0)
+                {
+                    FaceLeft();
+                }
             }
-            else if(movementVector.x < 0)
-            {
-                FaceLeft();
-            }
-        } 
 
-        if (rb.velocity.y < 0)
-        {
-            //add more to the existing y velocity
-            rb.velocity += Vector2.up * (Physics2D.gravity.y * Time.fixedDeltaTime * fallMultiplier);
+            if (rb.velocity.y < 0)
+            {
+                //add more to the existing y velocity
+                rb.velocity += Vector2.up * (Physics2D.gravity.y * Time.fixedDeltaTime * fallMultiplier);
+            }
+            // If you are going up, but not holding the jump button
+            else if (rb.velocity.y > 0 && !isJumping)
+            {
+                rb.velocity += Vector2.up * (Physics2D.gravity.y * Time.fixedDeltaTime * lowJumpMultiplier);
+            }
+            playerAnimator.SetFloat("RunSpeed", Mathf.Abs(movementVector.x));
+            playerAnimator.SetBool("IsGrounded", playerOnGround);
+            rb.velocity = new Vector2(movementVector.x * moveSpeed, rb.velocity.y);
         }
-        // If you are going up, but not holding the jump button
-        else if (rb.velocity.y > 0 && !isJumping)
-        {
-            rb.velocity += Vector2.up * (Physics2D.gravity.y * Time.fixedDeltaTime * lowJumpMultiplier);
+        else
+        { 
+            //disable certain things as needed here
         }
-        playerAnimator.SetFloat("RunSpeed", Mathf.Abs(movementVector.x));
-        playerAnimator.SetBool("IsGrounded", playerOnGround);
-        rb.velocity = new Vector2(movementVector.x * moveSpeed, rb.velocity.y);
+
     }
 
     private bool IsInCoyoteTime()
@@ -114,6 +132,40 @@ public class PlayerController : Singleton<PlayerController>
     public void OnAttack()
     {
         playerAnimator.SetTrigger("Attack");
+    }
+
+    public void SetPlayerCanMove(bool canMove)
+    {
+        playerCanMove = canMove;
+    }
+
+    public void OnTakingHit(bool attackedFromLeft)
+    {
+        SetPlayerCanMove(false);
+        //player face enemy
+        if (attackedFromLeft)
+        {
+            Debug.Log("Attack from Left, Face Left");
+            FaceLeft();
+        }
+        else
+        {
+            Debug.Log("Atack from right, FaceRight");
+            FaceRight();
+        }
+
+        //player take knockback
+        if (attackedFromLeft)
+        {
+            rb.AddForce(_knockbackForceRight * knockBackStrength * -1);
+        }
+        else
+        {
+            rb.AddForce(_knockbackForceLeft * knockBackStrength * -1);
+        }
+
+        //animation play
+        playerAnimator.Play("Base Layer.Player_TakeHit");
     }
 
 }

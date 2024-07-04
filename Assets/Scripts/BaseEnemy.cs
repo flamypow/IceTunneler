@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BaseEnemy : MonoBehaviour
 {
+    [SerializeField] protected int attackStrength;
     [SerializeField] protected int startingHealth;
     protected int currentHealth;
 
