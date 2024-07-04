@@ -20,13 +20,13 @@ public class HittableBlocks : MonoBehaviour
             if (transform.position.x < PlayerController.Instance.transform.position.x)
             {
 
-                Debug.Log("Player Right of block");
+                //Debug.Log("Player Right of block");
                 rb2D.bodyType = RigidbodyType2D.Dynamic;
                 rb2D.AddForce(transform.right * -1000f);
             }
             else
             {
-                Debug.Log("Player Left of block");
+                //Debug.Log("Player Left of block");
                 rb2D.bodyType = RigidbodyType2D.Dynamic;
                 rb2D.AddForce(transform.right * 1000f);
             }
