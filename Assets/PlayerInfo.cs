@@ -13,7 +13,7 @@ public class PlayerInfo : Singleton <PlayerInfo>
         playerCurrentHealth = playerStartHealth;
     }
 
-    public void playerTakeDamage(int damageAmount)
+    public void PlayerTakeDamage(int damageAmount)
     {
         playerCurrentHealth -= damageAmount;
         Debug.Log(playerCurrentHealth);
@@ -24,9 +24,13 @@ public class PlayerInfo : Singleton <PlayerInfo>
         }
     }
 
-    public void playerGainHealth(int healAmount)
+    public void PlayerGainHealth(int healAmount)
     {
         playerCurrentHealth += healAmount;
     }
 
+    public int GetCurrentHealth()
+    {
+        return playerCurrentHealth;
+    }
 }

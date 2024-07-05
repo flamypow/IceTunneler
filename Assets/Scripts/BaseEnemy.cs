@@ -7,6 +7,7 @@ public class BaseEnemy : MonoBehaviour
     [SerializeField] protected int attackStrength;
     [SerializeField] protected int startingHealth;
     protected int currentHealth;
+    [SerializeField] protected float knockbackStrength;
 
     [SerializeField] protected Animator enemyAnimator;
     [SerializeField] protected Collider2D enemyCollider; //Just in case I want multiple later

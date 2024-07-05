@@ -19,9 +19,6 @@ public class PlayerController : Singleton<PlayerController>
     [Header("Animations")]
     [SerializeField] GameObject playerSpriteComponent;
     [SerializeField] Animator playerAnimator;
-
-    [Header("TakingHit")]
-    [SerializeField] private float knockBackStrength = 2.0f;
     #endregion
 
     #region Private Variables
@@ -37,7 +34,7 @@ public class PlayerController : Singleton<PlayerController>
 
     //Knockback Variables
     private Vector2 _knockbackForceRight = new Vector2(1.0f, 1.0f);
-    private Vector2 _knockbackForceLeft = new Vector2(1.0f, 1.0f);
+    private Vector2 _knockbackForceLeft = new Vector2(-1.0f, 1.0f);
     #endregion
 
     bool playerCanMove = true;
@@ -50,13 +47,17 @@ public class PlayerController : Singleton<PlayerController>
 
     public void OnJump()
     {
-        if (!isJumping && (groundCheck.IsGrounded() || IsInCoyoteTime()))
+        if (playerCanMove)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpVelocity);
-            isJumping = true;
-            //playerAnimator.SetBool("IsGrounded", false);
-            playerAnimator.SetTrigger("Jump");
+            if (!isJumping && (groundCheck.IsGrounded() || IsInCoyoteTime()))
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jumpVelocity);
+                isJumping = true;
+                //playerAnimator.SetBool("IsGrounded", false);
+                playerAnimator.SetTrigger("Jump");
+            }
         }
+
     }
 
     public void JumpReleased()
@@ -139,29 +140,31 @@ public class PlayerController : Singleton<PlayerController>
         playerCanMove = canMove;
     }
 
-    public void OnTakingHit(bool attackedFromLeft)
+    public void OnTakingHit(bool attackedFromLeft, float knockBackStrength)
     {
         SetPlayerCanMove(false);
         //player face enemy
         if (attackedFromLeft)
         {
-            Debug.Log("Attack from Left, Face Left");
+            //Attack from Left, Face Left
             FaceLeft();
         }
         else
         {
-            Debug.Log("Atack from right, FaceRight");
+            //Atack from right, Face Right
             FaceRight();
         }
 
         //player take knockback
         if (attackedFromLeft)
         {
-            rb.AddForce(_knockbackForceRight * knockBackStrength * -1);
+            rb.velocity = Vector2.zero;
+            rb.velocity += _knockbackForceRight * knockBackStrength;
         }
         else
         {
-            rb.AddForce(_knockbackForceLeft * knockBackStrength * -1);
+            rb.velocity = Vector2.zero;
+            rb.velocity += _knockbackForceLeft * knockBackStrength;
         }
 
         //animation play

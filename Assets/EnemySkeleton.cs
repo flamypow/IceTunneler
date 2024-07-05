@@ -44,7 +44,7 @@ public class EnemySkeleton : BaseEnemy
         //if player body, hit player
         if (collider.gameObject.layer == 8)
         {
-            GameManager.Instance.PlayerTakeHit(attackStrength, this.transform);
+            GameManager.Instance.PlayerTakeHit(attackStrength, this.transform, knockbackStrength);
         }
     }
 

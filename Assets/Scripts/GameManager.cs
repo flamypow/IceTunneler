@@ -8,6 +8,7 @@ public class GameManager : Singleton <GameManager>
     //pause menu 
     [SerializeField] GameObject pauseMenu;
     public bool gamePaused = false;
+    private int currentStageIndex;
 
     public void PauseUnpause()
     {
@@ -15,28 +16,27 @@ public class GameManager : Singleton <GameManager>
         pauseMenu?.SetActive(gamePaused);
     }
 
+    void Start()
+    {
+        currentStageIndex = SceneManager.GetActiveScene().buildIndex;
+    }
+
     void Update()
     {        
         Time.timeScale = gamePaused ? 0.0f : 1.0f;   
     }
 
-    public void PlayerTakeHit(int amount, Transform source)
+    public void PlayerTakeHit(int amount, Transform source, float knockbackStrength)
     {
         if (source.position.x > PlayerController.Instance.transform.position.x)
         {
-            Debug.Log("Skeleton x"+ source.position.x);
-            Debug.Log("Player x" + PlayerController.Instance.transform.position.x);
-            Debug.Log("attacked from right");
-            PlayerController.Instance.OnTakingHit(false);
+            PlayerController.Instance.OnTakingHit(false, knockbackStrength);
         }
         else
         {
-            Debug.Log("Skeleton x" + source.position.x);
-            Debug.Log("Player x" + PlayerController.Instance.transform.position.x);
-            Debug.Log("attacked from left");
-            PlayerController.Instance.OnTakingHit(true);
+            PlayerController.Instance.OnTakingHit(true, knockbackStrength);
         }
-        PlayerInfo.Instance.playerTakeDamage(amount);
+        PlayerInfo.Instance.PlayerTakeDamage(amount);
     }
 
     public void StopPlayerMovement()
@@ -44,14 +44,20 @@ public class GameManager : Singleton <GameManager>
         PlayerController.Instance.SetPlayerCanMove(false);
     }
 
+    public int GetStageIndex()
+    {
+        return currentStageIndex;
+    }
+
     public void LoadLevel(int sceneNum)
     {
+        currentStageIndex = sceneNum;
         SceneManager.LoadScene(sceneNum);
     }
 
     public void LoadGameOver()
     {
-        SceneManager.LoadScene("GameOverScene");
+        SceneManager.LoadScene("GameOverScene", LoadSceneMode.Additive);
     }
 
     public void ExitGame()
