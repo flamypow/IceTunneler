@@ -29,6 +29,16 @@ public class PlayerInfo : Singleton <PlayerInfo>
         playerCurrentHealth += healAmount;
     }
 
+    public void PlayerSetHealth(int setTo)
+    {
+        playerCurrentHealth = setTo;
+    }
+
+    public void PlayerSetFullHealth()
+    {
+        playerCurrentHealth = playerStartHealth;
+    }
+
     public int GetCurrentHealth()
     {
         return playerCurrentHealth;

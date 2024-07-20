@@ -9,6 +9,9 @@ public class GameManager : Singleton <GameManager>
     [SerializeField] GameObject pauseMenu;
     public bool gamePaused = false;
     private int currentStageIndex;
+    private Transform currentCheckpoint;
+    [SerializeField] Transform playerStartingPosition;
+    [SerializeField] Transform playerTransform;
 
     public void PauseUnpause()
     {
@@ -19,6 +22,13 @@ public class GameManager : Singleton <GameManager>
     void Start()
     {
         currentStageIndex = SceneManager.GetActiveScene().buildIndex;
+        if (currentCheckpoint == null)
+        {
+            currentCheckpoint = playerStartingPosition;
+        }
+        playerTransform.position = currentCheckpoint.position;
+
+        //DontDestroyOnLoad(this.gameObject);
     }
 
     void Update()
@@ -37,6 +47,11 @@ public class GameManager : Singleton <GameManager>
             PlayerController.Instance.OnTakingHit(true, knockbackStrength);
         }
         PlayerInfo.Instance.PlayerTakeDamage(amount);
+    }
+
+    public void PlayerHealToFull()
+    {
+        PlayerInfo.Instance.PlayerSetFullHealth();
     }
 
     public void StopPlayerMovement()
@@ -66,6 +81,16 @@ public class GameManager : Singleton <GameManager>
             UnityEditor.EditorApplication.isPlaying = false;
         #endif
         Application.Quit();
+    }
+
+    public void SetCheckpoint(Transform checkpoint)
+    {
+        currentCheckpoint = checkpoint;
+    }
+
+    public void ResetCheckpoint()
+    {
+        currentCheckpoint = playerStartingPosition;
     }
 
 }

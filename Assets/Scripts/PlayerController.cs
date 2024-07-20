@@ -132,7 +132,11 @@ public class PlayerController : Singleton<PlayerController>
 
     public void OnAttack()
     {
-        playerAnimator.SetTrigger("Attack");
+        if (playerCanMove)
+        {
+            playerAnimator.SetTrigger("Attack");
+        }
+
     }
 
     public void SetPlayerCanMove(bool canMove)
