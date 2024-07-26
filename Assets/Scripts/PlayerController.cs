@@ -100,15 +100,15 @@ public class PlayerController : Singleton<PlayerController>
             {
                 rb.velocity += Vector2.up * (Physics2D.gravity.y * Time.fixedDeltaTime * lowJumpMultiplier);
             }
-            playerAnimator.SetFloat("RunSpeed", Mathf.Abs(movementVector.x));
-            playerAnimator.SetBool("IsGrounded", playerOnGround);
-            rb.velocity = new Vector2(movementVector.x * moveSpeed, rb.velocity.y);
+
         }
         else
         { 
             //disable certain things as needed here
         }
-
+        playerAnimator.SetFloat("RunSpeed", Mathf.Abs(movementVector.x));
+        playerAnimator.SetBool("IsGrounded", playerOnGround);
+        rb.velocity = new Vector2(movementVector.x * moveSpeed, rb.velocity.y);
     }
 
     private bool IsInCoyoteTime()
