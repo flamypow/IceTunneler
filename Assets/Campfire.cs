@@ -2,11 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class Campfire : MonoBehaviour
 {
     private Animator campfireAnimator;
     private bool _isLit = false;
     [SerializeField] private Transform associatedCheckpoint;
+    [SerializeField] private int checkpointID;
+
+    public int campfireID {get; set;}
 
     private void OnEnable()
     {
@@ -24,7 +29,9 @@ public class Campfire : MonoBehaviour
                 GameManager.Instance.PlayerHealToFull();
                 campfireAnimator.Play("Lit");
                 GameManager.Instance.SetCheckpoint(associatedCheckpoint);
+                GameManager.Instance.SetCheckpointID(checkpointID);
             }
         }
     }
+
 }

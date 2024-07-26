@@ -5,21 +5,29 @@ using UnityEngine;
 public class GameOverHelper : MonoBehaviour
 {
     private int currentStageIndex;
+    [SerializeField] private int checkpointID;
 
     private void OnEnable()
     {
+        DontDestroyOnLoad(this.gameObject);
         currentStageIndex = GameManager.Instance.GetStageIndex();
+        checkpointID = GameManager.Instance.GetCheckpointID();
+    }
+
+    public int getCheckpoint()
+    {
+        return checkpointID;
     }
 
     public void RestartFromCheckpoint()
     {
-        //need to be built later.
         GameManager.Instance.LoadLevel(currentStageIndex);
     }
     
     public void RestartLevel()
     {
         GameManager.Instance.LoadLevel(currentStageIndex);
+        Destroy(this.gameObject);
     }
 
     public void ExitGame()

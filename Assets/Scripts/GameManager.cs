@@ -10,6 +10,7 @@ public class GameManager : Singleton <GameManager>
     public bool gamePaused = false;
     private int currentStageIndex;
     private Transform currentCheckpoint;
+    private int currentCheckpointID;
     [SerializeField] Transform playerStartingPosition;
     [SerializeField] Transform playerTransform;
 
@@ -22,13 +23,18 @@ public class GameManager : Singleton <GameManager>
     void Start()
     {
         currentStageIndex = SceneManager.GetActiveScene().buildIndex;
+        GameOverHelper helper = FindAnyObjectByType<GameOverHelper>();
+        if (helper != null) //helper stores info on checkpoint
+        {
+            int i = helper.getCheckpoint();
+            currentCheckpoint = LevelInfo.Instance.GetCheckpoint(i);
+        }
         if (currentCheckpoint == null)
         {
             currentCheckpoint = playerStartingPosition;
         }
         playerTransform.position = currentCheckpoint.position;
-
-        //DontDestroyOnLoad(this.gameObject);
+        Destroy(helper);
     }
 
     void Update()
@@ -91,6 +97,16 @@ public class GameManager : Singleton <GameManager>
     public void ResetCheckpoint()
     {
         currentCheckpoint = playerStartingPosition;
+    }
+
+    public int GetCheckpointID()
+    {
+        return currentCheckpointID;
+    }
+
+    public void SetCheckpointID(int index)
+    {
+        currentCheckpointID = index;
     }
 
 }
