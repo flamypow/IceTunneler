@@ -1,6 +1,7 @@
 Used Assets:
-https://ninjikin.itch.io/starter-tiles
-https://chierit.itch.io/elementals-crystal-mauler
+https://ninjikin.itch.io/starter-tiles  by SciGho
+https://chierit.itch.io/elementals-crystal-mauler  by chierit
+https://nicopardo.itch.io/stone-ruins  by NicoPardo
 
 Used Tutorials:
 https://www.youtube.com/watch?v=g5WT91Sn3hg

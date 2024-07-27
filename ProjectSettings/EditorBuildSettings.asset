@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/LevelOneScene_William.unity
+    path: Assets/Scenes/Level_OneScene_William.unity
     guid: a9eeefc9747f38944b827720b629d056
   - enabled: 1
     path: Assets/Scenes/GameOverScene.unity
