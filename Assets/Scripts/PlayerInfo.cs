@@ -16,7 +16,7 @@ public class PlayerInfo : Singleton <PlayerInfo>
     public void PlayerTakeDamage(int damageAmount)
     {
         playerCurrentHealth -= damageAmount;
-        Debug.Log(playerCurrentHealth);
+        //Debug.Log(playerCurrentHealth);
         if (playerCurrentHealth <= 0)
         {
             playerCurrentHealth = playerStartHealth;
