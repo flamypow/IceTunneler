@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemySkeleton : BaseEnemy
 {
-    private bool shouldMove = true;
+    public bool shouldMove = true;
     [Header("Move")]
     [SerializeField] private GameObject[] waypoints;
     private int currentDestinationNum = 0;
@@ -16,18 +16,43 @@ public class EnemySkeleton : BaseEnemy
     private bool idling = false;
     [SerializeField] private float idleDuration;
     private float idleTimer;
+    [Header("Attack")]
+    private bool seePlayer = false;
+    private bool attacking = false;
+    [SerializeField] private EnemySight enemySight;
+    [Header("Perish")]
+    private bool hasDied = false;
 
     private void Update()
     {
-        if (waypoints.Length != 0)
+        if (hasDied == false)
         {
-            if (shouldMove)
+            if (waypoints.Length != 0)
             {
-                MoveAndIdle();
+                SeeAndAttack();
+                if (shouldMove)
+                {
+                    MoveAndIdle();
+                }
             }
-            
         }
+
         
+    }
+
+    void SeeAndAttack()
+    {
+        seePlayer = enemySight.getSeePlayer();
+        if (seePlayer)
+        {
+            shouldMove = false;
+            enemyAnimator.SetBool("IsAttacking", true);
+        }
+    }
+
+    void FinishAttacking()
+    {
+        enemyAnimator.SetBool("IsAttacking", false);
     }
 
     void MoveAndIdle()
@@ -102,6 +127,7 @@ public class EnemySkeleton : BaseEnemy
         enemyAnimator.Play("Base Layer.Skeleton_Die");
         //disable colliders
         enemyCollider.enabled = false;
+        hasDied = true;
     }
 
     public override void OnTriggerEnter2D(Collider2D collider)
