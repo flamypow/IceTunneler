@@ -88,6 +88,11 @@ MonoBehaviour:
   knockbackStrength: 5
   enemyAnimator: {fileID: 2312691922423468767}
   enemyCollider: {fileID: 204982108858680620}
+  waypoints: []
+  numChange: 1
+  moveSpeed: 0.8
+  movePrecision: 0.4
+  skeletonAnimator: {fileID: 2312691922423468767}
 --- !u!50 &-5628542154979827157
 Rigidbody2D:
   serializedVersion: 4
