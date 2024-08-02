@@ -4,7 +4,82 @@ using UnityEngine;
 
 public class EnemySkeleton : BaseEnemy
 {
-    
+    private bool shouldMove = true;
+    [Header("Move")]
+    [SerializeField] private GameObject[] waypoints;
+    private int currentDestinationNum = 0;
+    [SerializeField] private int numChange = 1;
+    private Transform currentDestination;
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private float movePrecision = 0.4f;
+    [Header("Idle")]
+    private bool idling = false;
+    [SerializeField] private float idleDuration;
+    private float idleTimer;
+
+    private void Update()
+    {
+        if (waypoints.Length != 0)
+        {
+            if (shouldMove)
+            {
+                MoveAndIdle();
+            }
+            
+        }
+        
+    }
+
+    void MoveAndIdle()
+    {
+        if (!idling)
+        {
+            enemyAnimator.SetBool("IsWalking", true);
+            if (currentDestination == null)
+            {
+                currentDestination = waypoints[0].transform;
+            }
+            if (currentDestination.transform.position.x > transform.position.x)
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+            }
+            else
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+            }
+            transform.position = Vector2.MoveTowards(transform.position, currentDestination.position, moveSpeed * Time.deltaTime);
+
+            if (Vector2.Distance(transform.position, currentDestination.position) < movePrecision)
+            {
+                idling = true;
+                idleTimer = idleDuration;
+                if (currentDestinationNum == waypoints.Length - 1)
+                {
+                    numChange = -1;
+                }
+                else if (currentDestinationNum == 0)
+                {
+                    numChange = 1;
+                }
+                currentDestinationNum += numChange;
+                currentDestination = waypoints[currentDestinationNum].transform;
+            }
+        }else
+        {
+            enemyAnimator.SetBool("IsWalking", false);
+            idleTimer -= Time.deltaTime;
+            if (idleTimer < 0f)
+            {
+                idling = false;
+            }
+        }
+    }
+
+    public void AllowedToMove()
+    {
+        shouldMove = true;
+    }
+
     public override void TakeDamage()
     {
         currentHealth--;
@@ -14,6 +89,7 @@ public class EnemySkeleton : BaseEnemy
         }
         else
         {
+            shouldMove = false;
             //play animation
             enemyAnimator.Play("Base Layer.Skeleton_TakeHit");
         }
@@ -21,6 +97,7 @@ public class EnemySkeleton : BaseEnemy
 
     public override void Perish()
     {
+        shouldMove = false;
         //play animation
         enemyAnimator.Play("Base Layer.Skeleton_Die");
         //disable colliders
@@ -36,7 +113,7 @@ public class EnemySkeleton : BaseEnemy
         }
 
         //if player attack, take damage
-        if (collider.gameObject.layer == 6) //I'll need to switch this to enum later
+        if (collider.gameObject.layer == 6) //I'll switch this to enum later
         {
             TakeDamage();
         }
