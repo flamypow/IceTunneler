@@ -81,6 +81,11 @@ public class GameManager : Singleton <GameManager>
         SceneManager.LoadScene("GameOverScene", LoadSceneMode.Additive);
     }
 
+    public void LoadGameEnd() //special case on the gameend scene
+    {
+        SceneManager.LoadScene("GameEndScene", LoadSceneMode.Additive);
+    }
+
     public void ExitGame()
     {
         #if UNITY_EDITOR
