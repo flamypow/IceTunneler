@@ -63,6 +63,7 @@ public class PlayerController : Singleton<PlayerController>
     public void JumpReleased()
     {
         isJumping = false;
+        _lastJumpTime = Time.time;
     }
 
 
@@ -113,7 +114,7 @@ public class PlayerController : Singleton<PlayerController>
 
     private bool IsInCoyoteTime()
     {
-        return (Time.time - _lastGroundedTime) <= coyoteTime;
+        return (Time.time - _lastGroundedTime) <= coyoteTime && (Time.time - _lastJumpTime) <= coyoteTime ;
     }
 
     private void FaceLeft()
